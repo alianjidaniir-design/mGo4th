@@ -1,4 +1,4 @@
-module github.com/allianjidaniir-design/mGo4th/uv
+module github.com/alianjidaniir-design/mGo4th/uv
 
 go 1.25.3
 
