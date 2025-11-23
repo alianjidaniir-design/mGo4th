@@ -3,17 +3,29 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/viper"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
-type configStructure struct {
+type ConfigStructure struct {
 	MacPass     string `mapStructure:"macos"`
 	LinuxPass   string `mapStructure:"linux"`
 	WindowsPass string `mapStructure:"windows"`
 	PostHost    string `mapStructure:"postgres"`
 	MySQLHost   string `mapStructure:"mysql"`
 	MongoHost   string `mapStructure:"mongodb"`
+}
+
+func PrettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(b))
+	}
+	return
 }
 
 var CONFIG = ".config.json"
@@ -54,7 +66,7 @@ func main() {
 	if !viper.IsSet("DoesNotExist") {
 		fmt.Println("DoesNotExist")
 	}
-	var t configStructure
+	var t ConfigStructure
 	err = viper.Unmarshal(&t)
 	if err != nil {
 		fmt.Println("error:", err)
