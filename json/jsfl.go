@@ -72,5 +72,9 @@ func main() {
 		fmt.Println("error:", err)
 		return
 	}
-
+	err = PrettyPrint(t)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
