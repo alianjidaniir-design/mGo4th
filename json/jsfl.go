@@ -1,20 +1,19 @@
-package json
+package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"os"
-
-	"github.com/kr/pretty"
 	"github.com/spf13/viper"
+	"os"
 )
 
-type configstructure struct {
-	MacPass     string `mapstructure:"macos"`
-	LinuxPass   string `mapstructure:"linux"`
-	WindowsPass string `mapstructure:"windows"`
-	PostHost    string `mapstructure:"postgres"`
-	MySQLHost   string `mapstructure:"mysql"`
-	MongoHost   string `mapstructure:"mongodb"`
+type configStructure struct {
+	MacPass     string `mapStructure:"macos"`
+	LinuxPass   string `mapStructure:"linux"`
+	WindowsPass string `mapStructure:"windows"`
+	PostHost    string `mapStructure:"postgres"`
+	MySQLHost   string `mapStructure:"mysql"`
+	MongoHost   string `mapStructure:"mongodb"`
 }
 
 var CONFIG = ".config.json"
@@ -27,7 +26,11 @@ func main() {
 	}
 	viper.SetConfigType("json")
 	viper.SetConfigFile(CONFIG)
-	fmt.Printf("Using config file: %s\n", CONFIG)
+	fmt.Printf("Using config file: %s\n", viper.ConfigFileUsed())
+	err := viper.ReadInConfig()
+	if err != nil {
+		return
+	}
 
 	if viper.IsSet("macos") {
 		fmt.Println("macos:", viper.Get("macos"))
@@ -51,12 +54,11 @@ func main() {
 	if !viper.IsSet("DoesNotExist") {
 		fmt.Println("DoesNotExist")
 	}
-	var t configstructure
-	err := viper.Unmarshal(&t)
+	var t configStructure
+	err = viper.Unmarshal(&t)
 	if err != nil {
 		fmt.Println("error:", err)
 		return
 	}
-	pretty.Print(t)
 
 }
