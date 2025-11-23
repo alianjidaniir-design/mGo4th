@@ -45,7 +45,8 @@ func main() {
 
 		val = viper.Get("GOMAXPROCS")
 
-		fmt.Println("GOMAXPROCS:", val)
+		fmt.Println("GOMAXPROCS:=", val)
+
 	}
 
 }
